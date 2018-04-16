@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe User, type: :model do
   context 'check validate' do
     %i[email encrypted_password].each do |field|
