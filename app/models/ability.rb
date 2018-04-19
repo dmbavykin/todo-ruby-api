@@ -5,6 +5,6 @@ class Ability
     user ||= User.new
 
     can :manage, Project, user_id: user.id
-    can :manage, Todo
+    can :manage, Todo, project: { user_id: user.id }
   end
 end

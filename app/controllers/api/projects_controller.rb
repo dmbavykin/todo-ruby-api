@@ -3,15 +3,15 @@
 module Api
   class ProjectsController < ApplicationController
     before_action :authenticate_api_user!
-    load_and_authorize_resource
+    load_and_authorize_resource through: :current_api_user, shallow: true, only: %i[index create]
+    load_and_authorize_resource only: %i[show update destroy]
 
     def index
       render json: @projects, each_serializer: Api::ProjectSerializer
     end
 
     def create
-      @project = current_api_user.projects.create(project_params)
-      if @project.valid?
+      if @project.save
         render json: @project, serializer: Api::ProjectSerializer, status: :created
       else
         render status: :unprocessable_entity
@@ -19,14 +19,11 @@ module Api
     end
 
     def show
-      @project = Project.find_by(id: params[:id])
       render json: @project, serializer: Api::ProjectSerializer
     end
 
     def update
-      @project = Project.find_by(id: params[:id])
-      @project.update(project_params)
-      if @project.valid?
+      if @project.save
         render json: @project, serializer: Api::ProjectSerializer, status: :ok
       else
         render status: :unprocessable_entity
