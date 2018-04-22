@@ -5,6 +5,7 @@ module Api
     let!(:user) { create(:user) }
     let!(:headers) { user.create_new_auth_token }
     let!(:project) { create(:project, user: user) }
+    let!(:todo_params) { attributes_for(:todo, project: project).stringify_keys }
 
     context 'POST #create' do
       it 'returns status code 201' do
@@ -31,11 +32,15 @@ module Api
     context 'PUT #update' do
       before do
         todo = create(:todo, project: project)
-        put api_project_todo_path(project, todo), headers: headers, params: attributes_for(:todo).stringify_keys
+        put api_project_todo_path(project, todo), headers: headers, params: todo_params
       end
 
       it 'returns status code 200' do
         expect(response).to have_http_status(200)
+      end
+
+      it 'changes todo content' do
+        expect(Todo.last.content).to eq(todo_params['content'])
       end
     end
 

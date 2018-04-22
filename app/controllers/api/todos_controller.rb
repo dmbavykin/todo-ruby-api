@@ -20,7 +20,7 @@ module Api
     end
 
     def update
-      if @todo.save
+      if @todo.update(todo_params)
         render json: @todo, serializer: Api::TodoSerializer, status: :ok
       else
         render status: :unprocessable_entity
