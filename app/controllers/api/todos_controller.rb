@@ -5,7 +5,7 @@ module Api
     before_action :authenticate_api_user!
     load_and_authorize_resource :project
     load_and_authorize_resource through: :project, only: :create
-    load_and_authorize_resource only: %i[show update destroy]
+    load_and_authorize_resource only: %i[show update destroy sorting]
 
     def create
       if @todo.save
@@ -29,6 +29,15 @@ module Api
 
     def destroy
       @todo.destroy
+      render status: :ok
+    end
+
+    def sorting
+      Todo.transaction do
+        params[:todos].each do |todo|
+          Todo.find_by(id: todo[:id]).update!(order: todo[:order])
+        end
+      end
       render status: :ok
     end
 

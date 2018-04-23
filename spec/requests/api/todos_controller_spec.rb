@@ -50,5 +50,27 @@ module Api
         expect{ delete api_project_todo_path(project, todo), headers: headers }.to change(Todo, :count).by(-1)
       end
     end
+
+    context 'POST #sorting' do
+      before do
+        @first_todo = create(:todo, project: project)
+        @second_todo = create(:todo, project: project)
+        post api_project_todos_sorting_path(project), headers: headers, params: {
+          todos: [
+            { id: @first_todo.id, order: 2 },
+            { id: @second_todo.id, order: 1 }
+          ]
+        }
+      end
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
+      end
+
+      it 'updates order' do
+        expect(Todo.find_by(id: @first_todo.id).order).to eq(2)
+        expect(Todo.find_by(id: @second_todo.id).order).to eq(1)
+      end
+    end
   end
 end
