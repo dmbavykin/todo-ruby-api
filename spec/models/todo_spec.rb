@@ -5,6 +5,10 @@ describe Todo, type: :model do
     it 'belongs to project' do
       is_expected.to belong_to(:project)
     end
+
+    it 'has many comments' do
+      is_expected.to have_many(:comments)
+    end
   end
 
   context 'validate' do

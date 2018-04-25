@@ -9,7 +9,7 @@ module Api
 
     def create
       if @todo.save
-        render json: @todo, serializer: Api::TodoSerializer, status: :created
+        render json: @todo, each_serializer: Api::TodoSerializer, status: :created
       else
         render status: :unprocessable_entity
       end
