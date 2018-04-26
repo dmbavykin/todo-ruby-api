@@ -27,7 +27,7 @@ module Api
     private
 
     def comment_params
-      params.permit(:content, :file)
+      params.permit(:content, :file, :expiration_date)
     end
   end
 end
