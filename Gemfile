@@ -21,6 +21,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.1.6'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'carrierwave', '~> 1.2', '>= 1.2.2'
+gem 'rubysl-securerandom', '~> 2.0'
 
 group :development, :test do
   gem 'database_cleaner', '~> 1.6', '>= 1.6.2'
