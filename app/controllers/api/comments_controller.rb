@@ -15,7 +15,7 @@ module Api
       if @comment.save
         render json: @comment, serializer: Api::CommentSerializer, status: :created
       else
-        render status: :unprocessable_entity
+        render json: {errors: @comment.errors.full_messages }, status: :unprocessable_entity
       end
     end
 

@@ -12,11 +12,15 @@ class FileUploader < CarrierWave::Uploader::Base
   end
 
   def extension_whitelist
-    %w(html css js docx xlsx csv yml)
+    %w(jpg png)
   end
 
   def filename
     "#{secure_token(10)}.#{file.extension}" if original_filename.present?
+  end
+
+  def size_range
+    1..10.megabytes
   end
 
   protected
